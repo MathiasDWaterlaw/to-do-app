@@ -5,9 +5,182 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+main {
+  display: flex;
+  justify-content: center;
+}
+
+header {
+  text-align: center;
+}
+
+.open-modal-btn {
+  padding: 0.7em 1em;
+  font-size: 1.5em;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  border:  1px solid lightgray;
+  position: fixed;
+  bottom: 1.5em ;
+  right: 1.5em;
+  color: white;
+  background-color: dodgerblue;
+}
+
+.modal {
+  position: absolute;
+  bottom: 50vh;
+  left: 40px;
+  right: 40px;
+  padding: 2em 0;
+  border: 1px solid #ccc;
+  background: #fff;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 4px;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal h3 {
+    text-align: center;
+    margin: 0 auto;
+  }
+
+.modal-content {
+  width: 25em;
+}
+
+.user-input-section {
+  margin: 1em;
+  display: flex;
+  flex-direction: column;
+}
+
+input[type='text'] {
+  padding: 0.5em 2em 0.5em 1em;
+  max-width: 100%;
+  margin-bottom: 1em;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 1em;
+}
+
+.btn {
+  width: 100%;
+}
+
+.list-container {
+  width: 60vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+}
+
+.task-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 2em;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  border-radius: 5px;
+  margin-bottom: 0.5em;
+  padding: 0.7em ;
+}
+
+input[type='checkbox'] {
+  background-color: white;
+  width: 2em;
+  height: 2em;
+  border: 1px solid lightgray;
+  border-radius: 2px;
+  margin: 0 0.5em;
+  outline: none;
+}
+
+label {
+  flex: 1;
+  margin-left: 0.5em;
+  margin-bottom: 4px;
+  margin: 0 0.5em 3px 0.5em;
+}
+
+.delete-btn {
+  width: 2em;
+  height: 2em;
+  border: none;
+  border-radius: 10%;
+  background-color: tomato;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5px 0 0 1px;
+}
+
+/* .add-section {
+  margin-bottom: 1em;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: sticky;
+  top: 0;
+  padding: 1em 2em;
+  border: 1px solid red
+}
+
+
+
+
+
+
+
+button {
+  padding: 0.5em 1.5em;
+}
+
+.clear-btn {
+  position: fixed;
+  bottom: 1em;
+  right: 1em;
+} */
+
+/* @media (width < 980) {
+  .list-container {
+    width: 60vw;
+  }
+} */
+
+@media (width < 890px) {
+  
+  .list-container {
+    width: 70vw;
+  }
+}
+
+@media (width < 780px) {
+  
+  .list-container {
+    width: 80vw;
+  }
 }
