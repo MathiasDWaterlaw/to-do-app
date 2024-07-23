@@ -1,0 +1,29 @@
+.task-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 2em;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    border-radius: 5px;
+    margin-bottom: 0.5em;
+    padding: 0.7em ;
+    background-color: white;
+  }
+  
+  input[type='checkbox'] {
+    background-color: white;
+    width: 2em;
+    height: 2em;
+    border: 1px solid lightgray;
+    border-radius: 2px;
+    margin: 0 0.5em;
+    outline: none;
+  }
+  
+  label {
+    flex: 1;
+    margin-left: 0.5em;
+    margin-bottom: 4px;
+    margin: 0 0.5em 3px 0.5em;
+  }

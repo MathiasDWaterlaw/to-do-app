@@ -6,7 +6,9 @@ Modal.setAppElement('#root')
 
 function MainPage() {
     const [modalState, setModalState] = React.useState(false);
-    const [taskList, setTaskList] = React.useState([]);
+    const [taskList, setTaskList] = React.useState([
+        {id:1, text: 'uno'}, {is:2, text:'due'}, {id:3, text:'tre'}
+    ]);
     const [userInput, setUserInput] = React.useState('');
 
     const showModal = () => {
@@ -22,13 +24,12 @@ function MainPage() {
     }
 
     const addTask = () => {
-        const randomNumber = Math.floor(Math.random() * 1000);
-        const time = new Date().getTime();
-        const generatedKey = String(taskList.length ) + '-' + String(randomNumber + taskList.length) + '-' + time;
+        const date = new Date().getDate();
+        const generatedId = String(taskList.length + 1) + '-' + String(userInput.length + date);
         
         if ( userInput !== '' && userInput.length <= 40 ) {
 
-            setTaskList(taskList => [...taskList, {id:generatedKey, text:userInput}]);
+            setTaskList(taskList => [...taskList, {id:generatedId, text:userInput}]);
             setUserInput('');
         } 
 
@@ -51,9 +52,9 @@ function MainPage() {
                 <div className="list-container">
                     {taskList.map( (task, index) => 
                     <Task 
-                        idProp={task.id} 
-                        textProp= {task.text} 
-                        indexProp={index} 
+                        id={task.id} 
+                        text= {task.text} 
+                        index={index} 
                         deleteButton={
                             <button 
                                 className="delete-btn" 
