@@ -97,19 +97,23 @@ input[type='text'] {
 
 
 
-.delete-btn {
+.delete-btn,
+.dnd-btn{
   width: 2em;
   height: 2em;
   border: none;
   border-radius: 10%;
-  background-color: tomato;
-  color: white;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0.5px 0 0 1px;
 }
 
+.delete-btn {
+  padding: 0.5px 0 0 1px;
+  background-color: tomato;
+  color: white;
+}
 /* .add-section {
   margin-bottom: 1em;
   width: 100%;

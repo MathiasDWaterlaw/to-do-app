@@ -1,27 +1,32 @@
 import React from "react";
 import Modal from "react-modal";
 import Task from "./Task";
+import {
+    handleDragStart, 
+    handleDragEnter, 
+    handleDragEnd } from '../Dnd/dnd'
 
 Modal.setAppElement('#root')
 
 function MainPage() {
     const [modalState, setModalState] = React.useState(false);
     const [taskList, setTaskList] = React.useState([
-        {id:1, text: 'uno'}, {is:2, text:'due'}, {id:3, text:'tre'}
+        {id:1, text: 'uno'}, {id:2, text:'due'}, {id:3, text:'tre'}
     ]);
     const [userInput, setUserInput] = React.useState('');
 
-    const showModal = () => {
-        setModalState(true);
-    }
-
-    const closeModal = () => {
-        setModalState(false);
-    }
+    let dragItem = React.useRef(null);
+    let dragOverItem = React.useRef(null);
 
     const handleInputChange = (event) => {
         setUserInput(event.target.value);
     }
+
+    const toggleModal = () => {
+        setModalState(!modalState);
+    }
+
+    // adding ad removing function
 
     const addTask = () => {
         const date = new Date().getDate();
@@ -33,7 +38,7 @@ function MainPage() {
             setUserInput('');
         } 
 
-        closeModal();
+        toggleModal();
     }
 
     const removeTask = (index) => {
@@ -41,6 +46,19 @@ function MainPage() {
         setTaskList(updateTask);
     }
 
+    // drag and drop sorting function:
+
+    const handleSorting = () => {
+        const _taskList = [...taskList];
+        const draggedTask = _taskList.splice(dragItem.current, 1);
+
+        _taskList.splice(dragOverItem.current, 0, ...draggedTask);
+        setTaskList(_taskList);
+
+        dragItem = null;
+        dragOverItem = null;
+    }
+ 
     return (
         <div className="container">
             <header>
@@ -51,19 +69,30 @@ function MainPage() {
 
                 <div className="list-container">
                     {taskList.map( (task, index) => 
-                    <Task 
-                        id={task.id} 
-                        text= {task.text} 
-                        index={index} 
-                        deleteButton={
-                            <button 
-                                className="delete-btn" 
-                                onClick={() => removeTask(index)}>X</button>
-                        }
-                    /> )}
+                        <Task 
+                            id={task.id} 
+                            text= {task.text} 
+                            index={index} 
+                            deleteButton={
+                                <button 
+                                    className="delete-btn" 
+                                    onClick={() => removeTask(index)}>X</button>
+                            }
+                            dragButton = {
+                                <button 
+                                className="dnd-btn"
+                                >::</button>
+                            }
+                            dragStart={() => {dragItem.current = index;
+                                
+                            }}
+                            dragEnter={() => {dragOverItem.current = index;}}
+                            dragEnd={handleSorting}
+                        /> 
+                    )}
                 </div>
 
-                <button className="open-modal-btn" onClick={showModal}>+</button>
+                <button className="open-modal-btn" onClick={toggleModal}>+</button>
             </main>
 
             <Modal isOpen={modalState}
@@ -91,7 +120,7 @@ function MainPage() {
                             <button className="add-task-btn btn" 
                                 onClick={addTask}>Add</button>
                             <button className="close-modal-btn btn"
-                                    onClick={closeModal}>Close</button>
+                                    onClick={toggleModal}>Close</button>
                         </div>
                     </div>
 

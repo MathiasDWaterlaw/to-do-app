@@ -1,9 +1,8 @@
 import React from "react";
 
 // handle drag start
-export function handleDragStart(event, index) {
+export function handleDragStart(event, index,) {
     console.log('drag is started', index);
-    return index;
 }
 // handle drag enter
 export function handleDragEnter(event, index) {

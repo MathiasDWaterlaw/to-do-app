@@ -1,4 +1,3 @@
-import {handleDragStart, handleDragEnter, handleDragEnd } from '../Dnd/dnd'
 import './Task.css'
 
 export default function Task(props) {
@@ -6,14 +5,15 @@ export default function Task(props) {
         <div 
             key={props.id} 
             className="task-container" 
-            draggable
-            onDragStart={(e) => handleDragStart(e, props.index)}
-            onDragEnter={(e) => handleDragEnter(e, props.index)}
-            onDragEnd={(e) => handleDragEnd(e, props.index)}
+            draggable = 'true'
+            onDragStart={props.dragStart}
+            onDragEnter={props.dragEnter}
+            onDragEnd={props.dragEnd}
         >
             <input type="checkbox"/>
             <label >{`${props.index + 1} - ${props.text}`}</label>
             {props.deleteButton}
+            {props.dragButton}
         </div>
     );
 }

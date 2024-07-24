@@ -9,6 +9,8 @@
     margin-bottom: 0.5em;
     padding: 0.7em ;
     background-color: white;
+    background-image: white;
+    position: relative;
   }
   
   input[type='checkbox'] {
