@@ -10,11 +10,11 @@ export default function Task(props) {
             onDragEnter={props.dragEnter}
             onDragEnd={props.dragEnd}
         >
-            <input type="checkbox"/>
+            <input type="checkbox" />
             <label >{`${props.index + 1} - ${props.text}`}</label>
             {props.deleteButton}
             {props.dragButton}
         </div>
     );
 }
-// il checkbox dovrebbe mantenere il suo stato anche se un altro task viene cancellato. quindi bisogna scrivere una funzione che regola lo use state del checkbox.
+// il checkbox dovrebbe mantenere il suo stato anche se un altro task viene cancellato. quindi bisogna scrivere una funzione che regola lo use state del checkbox. e bisogna anche salvare il suo stato nel local storage

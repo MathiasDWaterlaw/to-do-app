@@ -9,14 +9,17 @@ import {
 Modal.setAppElement('#root')
 
 function MainPage() {
+    
+    const localData = JSON.parse(localStorage.getItem('localData'));
+
     const [modalState, setModalState] = React.useState(false);
-    const [taskList, setTaskList] = React.useState([
-        {id:1, text: 'uno'}, {id:2, text:'due'}, {id:3, text:'tre'}
-    ]);
+    const [taskList, setTaskList] = React.useState(localData ? localData : []);
     const [userInput, setUserInput] = React.useState('');
 
-    let dragItem = React.useRef(null);
-    let dragOverItem = React.useRef(null);
+    React.useEffect(() => {
+        localStorage.setItem('localData', JSON.stringify(taskList));
+    }, [taskList]);
+
 
     const handleInputChange = (event) => {
         setUserInput(event.target.value);
@@ -27,26 +30,28 @@ function MainPage() {
     }
 
     // adding ad removing function
-
     const addTask = () => {
-        const date = new Date().getDate();
-        const generatedId = String(taskList.length + 1) + '-' + String(userInput.length + date);
         
         if ( userInput !== '' && userInput.length <= 40 ) {
+            const date = new Date().getTime();
+            const generatedId = String(taskList.length + 1) + '-' + String(userInput.length + date);
+            const newTask = {id:generatedId, text:userInput, checked: false};
 
-            setTaskList(taskList => [...taskList, {id:generatedId, text:userInput}]);
+            setTaskList(taskList => [...taskList, newTask]);
             setUserInput('');
         } 
-
+        
         toggleModal();
     }
 
     const removeTask = (index) => {
-        const updateTask = taskList.filter((_, i) => index !== i);
-        setTaskList(updateTask);
+        const updatedTask = taskList.filter((_, i) => index !== i);
+        setTaskList(updatedTask);
     }
 
     // drag and drop sorting function:
+    let dragItem = React.useRef(null);
+    let dragOverItem = React.useRef(null);
 
     const handleSorting = () => {
         const _taskList = [...taskList];
@@ -83,9 +88,7 @@ function MainPage() {
                                 className="dnd-btn"
                                 >::</button>
                             }
-                            dragStart={() => {dragItem.current = index;
-                                
-                            }}
+                            dragStart={() => {dragItem.current = index;}}
                             dragEnter={() => {dragOverItem.current = index;}}
                             dragEnd={handleSorting}
                         /> 
