@@ -4,18 +4,17 @@ import Modal from "react-modal";
 Modal.setAppElement('#root')
 
 function MainPage() {
-    
     const localData = JSON.parse(localStorage.getItem('localData'));
 
     const [modalState, setModalState] = React.useState(false);
     const [taskList, setTaskList] = React.useState(localData ? localData : []);
     const [userInput, setUserInput] = React.useState('');
-    const [checkState, setCheckState] = React.useState(false);
+
     const [characterLimit, setLimit] = React.useState(false);
 
     React.useEffect(() => {
         localStorage.setItem('localData', JSON.stringify(taskList));
-    }, [taskList, checkState]);
+    }, [taskList]);
 
     const handleInputChange = (event) => {
 
@@ -24,16 +23,17 @@ function MainPage() {
     }
 
     const toggleModal = () => {
+
         setModalState(!modalState);
     }
 
-    // adding ad removing function
+    // adding ad removing tasks functions
     const addTask = () => {
 
         if ( userInput !== '' && userInput.length <= 40 ) {
             const date = new Date().getTime();
             const generatedId = String(taskList.length + 1) + '-' + String(userInput.length + date);
-            const newTask = {id:generatedId, text:userInput};
+            const newTask = {id:generatedId, text:userInput, check: false};
 
             setTaskList(taskList => [...taskList, newTask]);
             setUserInput('');
@@ -49,8 +49,13 @@ function MainPage() {
         setTaskList(updatedTask);
     }
 
-    const handleInputCheck = (event) => {
-        setCheckState(!event.target.checked);
+    // function that handle the checkbox status
+    const handleCheck = (index) => {
+        const updatedTask = taskList.map((task, i) => {
+            return index === i? {...task, check: !task.check} : task;
+        })
+
+        setTaskList(updatedTask);
     }
 
     // drag and drop sorting function:
@@ -84,24 +89,27 @@ function MainPage() {
                         >
                             <input
                                 type='checkbox'
-                                onChange={(event) => {
-                                    setCheckState(!event.target.checked)
-                                    task.check = checkState;
-                                    // console.log(taskList)
-                                    // setCheckState(false);
-                                }}
-                                defaultChecked={task.check}
+                                onChange={() => { handleCheck(index); }}
+                                checked={task.check}
                             />
                             <label>{ (index + 1) + ' - ' + task.text }</label>
 
                             <button
                                 className="delete-btn"
                                 onClick={() => removeTask(index)}
-                            >X</button>
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+                                {/* <!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--> */}
+                                <path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"/></svg>
+                            </button>
 
                             <button
                                 className="dnd-btn"
-                            >::</button>
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                                {/* <!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--> */}
+                                <path d="M40 352l48 0c22.1 0 40 17.9 40 40l0 48c0 22.1-17.9 40-40 40l-48 0c-22.1 0-40-17.9-40-40l0-48c0-22.1 17.9-40 40-40zm192 0l48 0c22.1 0 40 17.9 40 40l0 48c0 22.1-17.9 40-40 40l-48 0c-22.1 0-40-17.9-40-40l0-48c0-22.1 17.9-40 40-40zM40 320c-22.1 0-40-17.9-40-40l0-48c0-22.1 17.9-40 40-40l48 0c22.1 0 40 17.9 40 40l0 48c0 22.1-17.9 40-40 40l-48 0zM232 192l48 0c22.1 0 40 17.9 40 40l0 48c0 22.1-17.9 40-40 40l-48 0c-22.1 0-40-17.9-40-40l0-48c0-22.1 17.9-40 40-40zM40 160c-22.1 0-40-17.9-40-40L0 72C0 49.9 17.9 32 40 32l48 0c22.1 0 40 17.9 40 40l0 48c0 22.1-17.9 40-40 40l-48 0zM232 32l48 0c22.1 0 40 17.9 40 40l0 48c0 22.1-17.9 40-40 40l-48 0c-22.1 0-40-17.9-40-40l0-48c0-22.1 17.9-40 40-40z"/></svg>
+                            </button>
                         </div> 
                     )}
                 </div>
@@ -132,21 +140,19 @@ function MainPage() {
                                 }
                             }}
                         />
-
                         {characterLimit && <label htmlFor="input-text" className="char-limit">40 character limit!</label>}
+                        <div className="space"></div>
 
                         <div className="button-container">
-
-                            <button 
-                                className="add-task-btn btn" 
-                                onClick={addTask}
-                            >Add</button>
-
                             <button 
                                 className="close-modal-btn btn"
                                 onClick={toggleModal}
                             >Close</button>
 
+                            <button 
+                                className="add-task-btn btn" 
+                                onClick={addTask}
+                            >Add</button>
                         </div>
                     </div>
 
